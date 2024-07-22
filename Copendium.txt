@@ -1,0 +1,54 @@
+
+
+
+
+ExtForcesAndMoments 
+
+Input
+LBE 				
+Mass_KG (m) 			
+GroundForcesAndMoments_N_Nm      
+AeroForcesAndMoments_N_Nm       
+ThurstForcesAndMoments_N_Nm      
+
+Outuput
+Extforces_N 
+Ext_Moments_Nm 
+LoadFactors
+
+Formulas
+Extforces_N = m*(dV/dt) => = m*((u_dot; v_dpt; w_dot) + (p; q; r) x (u; v; w))
+Ext_Moments_Nm = 
+LoadFactors = 
+
+
+BodyRates
+
+Input
+Ext_Moments_Nm
+InertiaTensor_kgm²
+
+Output
+BodyRates_radps
+
+Formulas		
+BodyRates 
+
+
+BodyVelocities
+
+Input
+ExtForces_N
+Mass_KG (m) 
+BodyRates_radps 
+
+Output
+BodyVelocities_mps
+
+Formulas
+BodyVelocities = (M/ExtForces_N) - (BodyRates_radps x [u_mps; v_mps; v_mps])
+
+[u_mps; v_mps; v_mps] = Integral[u_dot; v_dot; q_dot]
+
+
+
