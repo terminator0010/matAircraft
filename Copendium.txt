@@ -1,4 +1,16 @@
 
+LoadFactors
+Input
+LBE 				
+Mass_KG (m) 			
+GroundForcesAndMoments_N_Nm      
+AeroForcesAndMoments_N_Nm       
+ThurstForcesAndMoments_N_Nm   
+
+Output
+LoadFactors
+
+Formulas
 
 
 
@@ -17,9 +29,27 @@ Ext_Moments_Nm
 LoadFactors
 
 Formulas
-Extforces_N = m*(dV/dt) => = m*((u_dot; v_dpt; w_dot) + (p; q; r) x (u; v; w))
-Ext_Moments_Nm = 
-LoadFactors = 
+
+
+Extforces_N 
+
+Input
+ExtForcesAndMoments
+
+Formulas
+m*(dV/dt) => = m*((u_dot; v_dpt; w_dot) + (p; q; r) x (u; v; w))
+
+
+Ext_Moments_Nm
+
+Input
+ExtForcesAndMoments  
+
+Ouput
+Ext_Moments_Nm
+
+Formulas
+
 
 
 BodyRates
