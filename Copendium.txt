@@ -1,24 +1,44 @@
-
-LoadFactors
+Isa atmosphere
 Input
-LBE 				
-Mass_KG (m) 			
-GroundForcesAndMoments_N_Nm      
-AeroForcesAndMoments_N_Nm       
-ThurstForcesAndMoments_N_Nm   
+height_m
+k = -0,0065
+t0_k = 288,15
+Constante gás perfeito(gamma) = 1,4
+R = 287
+g_mps = 9,80665
+P0 = 101325
+e= 2,718281
+hTropo_m = 11000
+True Air Speed_mps (TAS)
 
 Output
-LoadFactors
+Speed_sound_mps
+Temp_k (t1)
+Pressure_Pa
+Air density_kgpm³ (rho)
+Calibrated Air Speed_mps (Cas)
+Mach
 
 Formulas
+t1 = (t0+k)*h
+spSound_mps = sqrt(gamma*R*t1)
+pEleven = P0*((t1/t0)^(-g/(k*R)))
+pAbEleven = pEleven^(e^((-g/(R*t1))*(h-hTropo)))
+pActual = pEleven*pAbEleven
+perfGasEq = pActual*R*t1
+Mach = TAS/spSound_mps
 
+cdP = pActual*((((((gamma-1)/2)*Mach^2+1)^(gamma/(gamma-1))))-1)
+CAS = sqrt((((2*spSound_mps^2)/(gamma-1))*((cdP/P0)+1)^((gamma-1)/gamma))-1)
 
 
 ExtForcesAndMoments 
 
 Input
-LBE 				
+LBE
 Mass_KG (m) 			
+g_mps
+[0;0;g_mps]			
 GroundForcesAndMoments_N_Nm      
 AeroForcesAndMoments_N_Nm       
 ThurstForcesAndMoments_N_Nm      
@@ -28,28 +48,11 @@ Extforces_N
 Ext_Moments_Nm 
 LoadFactors
 
-Formulas
-
-
-Extforces_N 
-
-Input
-ExtForcesAndMoments
 
 Formulas
-m*(dV/dt) => = m*((u_dot; v_dpt; w_dot) + (p; q; r) x (u; v; w))
-
-
-Ext_Moments_Nm
-
-Input
-ExtForcesAndMoments  
-
-Ouput
-Ext_Moments_Nm
-
-Formulas
-
+Extforces_N = ([LBE^T1_k] * [0;0;g_mps*Mass_kg]) + ([GroundForcesAndMoments_N_Nm] + [AeroForcesAndMoments_N_Nm]  + [ThurstForcesAndMoments_N_Nm])
+Ext_Moments_Nm = ([GroundForcesAndMoments_N_Nm] + [AeroForcesAndMoments_N_Nm]  + [ThurstForcesAndMoments_N_Nm])
+LoadFactors_N = (([0;0;g_mps*Mass_kg])^-1) * ([GroundForcesAndMoments_N_Nm] + [AeroForcesAndMoments_N_Nm]  + [ThurstForcesAndMoments_N_Nm]) => [nx; ny; -1*nz]
 
 
 BodyRates
@@ -62,7 +65,10 @@ Output
 BodyRates_radps
 
 Formulas		
-BodyRates 
+BodyRates_radps = ([InertialTensor_kgm²]^-1)*((([InertialTensor_kgm²]*[p_radps; q_radps; r_radps])x[p_radps; q_radps; r_radps])- Moments_Nm))
+[p_dot; q_dot; r_dot] = ([InertialTensor_kgm²]^-1)*([InertialTensor_kgm²]- Moments_Nm)
+[p_radps; q_radps; r_radps] = Integral[p_dot; q_dot; r_dot]
+
 
 
 BodyVelocities
@@ -76,7 +82,9 @@ Output
 BodyVelocities_mps
 
 Formulas
-BodyVelocities = (M/ExtForces_N) - (BodyRates_radps x [u_mps; v_mps; v_mps])
+BodyVelocities = (ExtForces_N/Mass_KG) - (BodyRates_radps x [u_mps; v_mps; v_mps])
+
+[u_dot; v_dot; q_dot] = (ExtForces_N/Mass_KG) - (BodyRates_radps)
 
 [u_mps; v_mps; v_mps] = Integral[u_dot; v_dot; q_dot]
 
