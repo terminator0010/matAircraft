@@ -38,7 +38,7 @@ Input
 LBE
 Mass_KG (m) 			
 g_mps
-[0;0;g_mps]			
+W_n = [0;0;g_mps]			
 GroundForcesAndMoments_N_Nm      
 AeroForcesAndMoments_N_Nm       
 ThurstForcesAndMoments_N_Nm      
@@ -50,9 +50,9 @@ LoadFactors
 
 
 Formulas
-Extforces_N = ([LBE^T1_k] * [0;0;g_mps*Mass_kg]) + ([GroundForcesAndMoments_N_Nm] + [AeroForcesAndMoments_N_Nm]  + [ThurstForcesAndMoments_N_Nm])
+Extforces_N = ([LBE^T1_k] * [W_n*Mass_kg]) + ([GroundForcesAndMoments_N_Nm] + [AeroForcesAndMoments_N_Nm]  + [ThurstForcesAndMoments_N_Nm])
 Ext_Moments_Nm = ([GroundForcesAndMoments_N_Nm] + [AeroForcesAndMoments_N_Nm]  + [ThurstForcesAndMoments_N_Nm])
-LoadFactors_N = (([0;0;g_mps*Mass_kg])^-1) * ([GroundForcesAndMoments_N_Nm] + [AeroForcesAndMoments_N_Nm]  + [ThurstForcesAndMoments_N_Nm]) => [nx; ny; -1*nz]
+LoadFactors_N = (([W_n*Mass_kg])^-1) * ([GroundForcesAndMoments_N_Nm] + [AeroForcesAndMoments_N_Nm]  + [ThurstForcesAndMoments_N_Nm]) => [nx; ny; -1*nz]
 
 
 BodyRates
@@ -89,4 +89,22 @@ BodyVelocities = (ExtForces_N/Mass_KG) - (BodyRates_radps x [u_mps; v_mps; v_mps
 [u_mps; v_mps; v_mps] = Integral[u_dot; v_dot; q_dot]
 
 
+Euler Rates
+Input
+BodyRates_radps
+EulerAngles_rad
+
+Output
+EulerRates_radps²
+LBE
+
+Formulas
+X_dot = [BodyRates_radps] + [EulerAngles_rad]
+form1 = x_dot[u1+(u2*u4)*(u5/u8)+(u3*u7)*(u5/u8)]
+form2 = x_dot[(u2*u7)-(u3*u4)]
+form3 = x_dot[((u2*u4)+(u3*u7))/u8]
+
+EulerAngles_rad = [Integral(form1); Integral(form2); Integral(form3)]
+
+LBE = [u(5)*u(6), (u(1)*u(2)*u(6))-(u(4)*u(3)), (u(6)*u(2)*u(4))+(u(1)*u(3)); u(5)*u(3), u(1)*u(2)*u(3)+u(4)*u(6), (u(4)*u(2)*u(3))-(u(1)*u(6)); -u(2); u(1)*u(5), u(4)*u(5)]
 
