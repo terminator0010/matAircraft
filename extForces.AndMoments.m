@@ -1,21 +1,23 @@
-function [Extforces_N; Ext_Moments_Nm; LoadFactors_N] = extForcesAndMoments (params)
-LEB = [x; y; z];
+function [Extforces_N, Ext_Moments_Nm, LoadFactors_N] = extForcesAndMoments (params)
+%Input
+LBE = params.LBE
+Mass_kg = params.Mass_kg
+g_mps = params.g_mps
+GroundForcesAndMoments_N_Nm = params.GroundForcesAndMoments_N_Nm
+AeroForcesAndMoments_N_Nm = params.AeroForcesAndMoments_N_Nm
+ThurstForcesAndMoments_N_Nm = params.ThurstForcesAndMoments_N_Nm
 
-m = params.m;
-g = params.g;
-
-m_N = [0;0;m];
-Mass_KG = [m_N*.g;]
-
-
-GroundForcesAndMoments_N_Nm
-AeroForcesAndMoments_N_Nm
-ThrustForcesAndMoments_N_Nm
+%Outuput
+%Extforces_N
+%Ext_Moments_Nm
+%LoadFactors_N
 
 
-Extforces_N = ([LBE^T1_k] * [Mass_kg]) + ([GroundForcesAndMoments_N_Nm] + [AeroForcesAndMoments_N_Nm]  + [ThurstForcesAndMoments_N_Nm])
-Ext_Moments_Nm = ([GroundForcesAndMoments_N_Nm] + [AeroForcesAndMoments_N_Nm]  + [ThurstForcesAndMoments_N_Nm])
-LoadFactors_N = ((([Mass_kg]^-1) * ([GroundForcesAndMoments_N_Nm] + [AeroForcesAndMoments_N_Nm]  + [ThurstForcesAndMoments_N_Nm]))* [1; 1; -1])
+%Formulas
+W_N = [0;0;g_mps]*Mass_kg;
+Extforces_N = (LBE^T1_k * W_N) + (GroundForcesAndMoments_N_Nm + AeroForcesAndMoments_N_Nm  + ThurstForcesAndMoments_N_Nm);
+Ext_Moments_Nm = GroundForcesAndMoments_N_Nm + AeroForcesAndMoments_N_Nm  + ThurstForcesAndMoments_N_Nm;
+LoadFactors_N = ((W_N^-1) * (GroundForcesAndMoments_N_Nm + AeroForcesAndMoments_N_Nm  + ThurstForcesAndMoments_N_Nm))*[1; 1; -1];
 
 end
 

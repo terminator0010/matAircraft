@@ -10,17 +10,21 @@ params.I = 1;
 params.J = 1;
 params.K = 1;
 
-params.m = 10;
+params.Mass_kg = 10;
 
-params.h0 = 0;
-params.t = 50;
-params.g = 9.80665;
+params.h0_m = 0;
+params.t_k = 50;
+params.g_mps = 9.80665;
 params.P0 = 101325;
 
 params.e = 2.718281;
 params.hTropo = 11000;
 params.gConst = 1.4;
 params.HR = 287;
+
+params.GroundForcesAndMoments_N_Nm
+params.AeroForcesAndMoments_N_Nm
+params.ThurstForcesAndMoments_N_Nm
 
 params.TAS = 150;
 

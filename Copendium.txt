@@ -89,13 +89,13 @@ BodyVelocities = (ExtForces_N/Mass_KG) - (BodyRates_radps x [u_mps; v_mps; v_mps
 [u_mps; v_mps; v_mps] = Integral[u_dot; v_dot; q_dot]
 
 
-Euler Rates
+EulerRates
 Input
 BodyRates_radps
 EulerAngles_rad
 
 Output
-EulerRates_radps²
+EulerRates_rad
 LBE
 
 Formulas
