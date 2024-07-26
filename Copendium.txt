@@ -89,7 +89,7 @@ BodyVelocities = (ExtForces_N/Mass_KG) - (BodyRates_radps x [u_mps; v_mps; v_mps
 [u_mps; v_mps; v_mps] = Integral[u_dot; v_dot; q_dot]
 
 
-EulerRates
+EulerAngles
 Input
 BodyRates_radps
 EulerAngles_rad
@@ -107,4 +107,8 @@ form3 = x_dot[((u2*u4)+(u3*u7))/u8]
 EulerAngles_rad = [Integral(form1); Integral(form2); Integral(form3)]
 
 LBE = [u(5)*u(6), (u(1)*u(2)*u(6))-(u(4)*u(3)), (u(6)*u(2)*u(4))+(u(1)*u(3)); u(5)*u(3), u(1)*u(2)*u(3)+u(4)*u(6), (u(4)*u(2)*u(3))-(u(1)*u(6)); -u(2); u(1)*u(5), u(4)*u(5)]
+
+
+x = PositionVector-Position[x;y;z]+AircraftOrientation[psi;theta;phi]+BodyVelocity-Velocities[u;v;w]+BodyAngularVelocity-Rotational[p;q;r]
+x_dot = f(x)
 

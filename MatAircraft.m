@@ -2,8 +2,16 @@ clc;
 clear;
 close all;
 
-params.V = 10;
-params.R = 0;
+params.V[1,1,1];
+
+params.Psi;
+params.Theta;
+params.Phi;
+
+params.P = 1;
+params.Q = 1;
+params.R = 1;
+
 params.H = 100;
 
 params.I = 1;
@@ -28,14 +36,14 @@ params.ThurstForcesAndMoments_N_Nm
 
 params.TAS = 150;
 
-pIsa = [iT, iSP, iP, iM, icdP, iCAS];
+pIsa = [t1, spSound_mps, pActual, Mach, cdP, CAS];
 
 pIsa = IsaAtmo(params);
 
 disp(pIsa);
 
 %{
-[pV, Lpsi, Ltheta, Lphi] = planeVelocities(params);
+[pV, Lpsi, Ltheta, Lphi] = LBE(params);
 
 plV.Lpsi = Lpsi;
 plV.Ltheta = Ltheta;
@@ -49,7 +57,7 @@ pAngR = planeAngRotation(params, plV);
 
 %pT = planeTranslation(plV, params, m);
 
-%pR = planeRotation(params, pAngR);
+%iT = inertiaTensor(params, pAngR);
 
 %disp(pV);
 

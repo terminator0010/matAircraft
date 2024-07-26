@@ -1,4 +1,4 @@
-function [iT, iSP, iP, iM, icdP, iCAS] = IsaAtmo(params)
+function [t1, spSound_mps, pActual, Mach, cdP, CAS] = IsaAtmo(params)
 
   h = params.h0;
   t = params.t;
