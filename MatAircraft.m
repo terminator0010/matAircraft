@@ -2,11 +2,9 @@ clc;
 clear;
 close all;
 
-params.V[1,1,1];
+params.V[0,0,0];
 
-params.Psi;
-params.Theta;
-params.Phi;
+params.EulerAngles_rad = [phi; theta; psi];
 
 params.P = 1;
 params.Q = 1;
@@ -30,15 +28,25 @@ params.hTropo = 11000;
 params.gConst = 1.4;
 params.HR = 287;
 
-params.GroundForcesAndMoments_N_Nm
-params.AeroForcesAndMoments_N_Nm
-params.ThurstForcesAndMoments_N_Nm
+params.GroundForcesAndMoments_N_Nm = [1;1;1];
+params.AeroForcesAndMoments_N_Nm = [1;1;;];
+params.ThurstForcesAndMoments_N_Nm = [1;1;1];
+
+params.InertiaTensor_kgm2 = [1 0 1;0 1 0;-1 0 1];
+
+params.EulerAngles_rad;
+
+params.Extforces_N = [1;1;1];
+params.Ext_Moments_Nm = [1;1;1];
+params.LoadFactors_N = [1;1;1];
 
 params.TAS = 150;
 
 pIsa = [t1, spSound_mps, pActual, Mach, cdP, CAS];
 
 pIsa = IsaAtmo(params);
+
+EulerAngles_rad = bodyVelocities(params);
 
 disp(pIsa);
 
