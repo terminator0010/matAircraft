@@ -2,9 +2,9 @@ clc;
 clear;
 close all;
 
-params.V[0,0,0];
+params.V = [0;0;0];
 
-params.EulerAngles_rad = [phi; theta; psi];
+params.EulerAngles_rad = [0; 0; 0];
 
 params.P = 1;
 params.Q = 1;
@@ -18,7 +18,7 @@ params.K = 1;
 
 params.Mass_kg = 10;
 
-params.h0_m = 0;
+params.h0_m = 50;
 params.t_k = 50;
 params.g_mps = 9.80665;
 params.P0 = 101325;
@@ -34,7 +34,7 @@ params.ThurstForcesAndMoments_N_Nm = [1;1;1];
 
 params.InertiaTensor_kgm2 = [1 0 1;0 1 0;-1 0 1];
 
-params.EulerAngles_rad;
+params.EulerAngles_rad = [1 1 1];
 
 params.Extforces_N = [1;1;1];
 params.Ext_Moments_Nm = [1;1;1];
@@ -42,13 +42,27 @@ params.LoadFactors_N = [1;1;1];
 
 params.TAS = 150;
 
-pIsa = [t1, spSound_mps, pActual, Mach, cdP, CAS];
 
-pIsa = IsaAtmo(params);
+[t1, spSound_mps, pActual, Mach, cdP, CAS] = IsaAtmo(params);
 
-EulerAngles_rad = bodyVelocities(params);
+disp('Actual Temperature');
+disp(t1);
+disp('');
+disp('Speed of Sound /Mps');
+disp(spSound_mps);
+disp('');
+disp('Actual Pressure');
+disp(pActual);
+disp('');
+disp('Mach Number');
+disp(Mach);
+disp('');
+disp('Dynamic Pressure');
+disp(cdP);
+disp('');
+disp('Calculated Airpressure Speed');
+disp(CAS);
 
-disp(pIsa);
 
 %{
 [pV, Lpsi, Ltheta, Lphi] = LBE(params);

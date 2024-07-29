@@ -1,20 +1,20 @@
 function [t1, spSound_mps, pActual, Mach, cdP, CAS] = IsaAtmo(params)
 
-  h = params.h0;
-  t = params.t;
+  h = params.h0_m;
+  t = params.t_k;
   k = -0.0065;
   t0 = 288.15;
   %t_kelvin = t*274,15;
   %h_pes = h*3.2808;
   gamma = params.gConst;
   R = params.HR;
-  g = params.g;
+  g = params.g_mps;
   P0 = params.P0;
   e = params.e;
   hTropo = params.hTropo;
   TAS = params.TAS;
 
-  t1 = (t0+k)*h
+  t1 = (t0+k)*h;
 
   spSound_mps = sqrt(gamma*R*t1);
 
