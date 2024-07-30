@@ -96,4 +96,45 @@ Ext_Moments_Nm = GroundForcesAndMoments_N_Nm + AeroForcesAndMoments_N_Nm  + Thur
 %LoadFactors_N
 LoadFactors_N = ((W_N^-1) * (GroundForcesAndMoments_N_Nm + AeroForcesAndMoments_N_Nm  + ThurstForcesAndMoments_N_Nm))*[1; 1; -1];
 
+%Inertial Data
+%Input
+%BodyVelocities
+%LBE
+
+%Output
+%InertialVelocity
+%PositionInerial
+
+
+%Formula
+InertialVelocity_mps = LBE * BodyVelocities
+PositionInertial_m(x;y;z) = Integral(InertialVelocity);
+
+
+%Trajectory Data
+%Input
+%Ve_dot (Xe_dot; Ye_dot; Ze_dot)
+%InertialVelocity_mps
+
+
+%Output
+%Gamma_angle_deg
+%Track_angle_deg
+%GroundSpeed_mps
+
+%Formula
+Xe_dot = InertialVelocity_mps(1,1);
+Ye_dot = InertialVelocity_mps(1,2);
+Ze_dot = InertialVelocity_mps(1,3);
+
+%GroundSpeed_mps
+GroundSpeed_mps = sqrt(Xe_dot^2+Ye_dot^2);
+
+%Gamma_Angle
+%gamma_angle = (tg^(-1))*((-1*Ze_dot)/(sqrt(Xe_dot^2+Ye_dot^2)))
+Gamma_angle_deg = (atan2((1-*Ze_dot)/GroundSpeed_mps))*(180*pi);
+
+%Track_angle
+Track_angle_deg = atan2(Ye_dot/Xe_dot);
+
 end
