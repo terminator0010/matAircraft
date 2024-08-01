@@ -1,3 +1,5 @@
+[EngineForcesAndMoments, Thrust_N] function Propulsion(params)
+
 %Generic thrust model
 %Thrust = Tc*Tmax*(V/Vref)^nv * (PActual/Pref)^np
 %nv = 0 for turbofan and nv = -1 for turboprop
@@ -41,4 +43,4 @@ yaw_moment_Nm = 0;
 
 EngineForcesAndMoments = [roll_moment_Nm pitch_moment_Nm _yaw_moment_NM;
 
-
+end
