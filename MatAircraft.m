@@ -6,17 +6,14 @@ params.V = [0;0;0];
 
 params.EulerAngles_rad = [0; 0; 0];
 
-params.P = 1;
-params.Q = 1;
-params.R = 1;
+params.PQR = [1;1;1];
 
 params.H = 100;
 
-params.I = 1;
-params.J = 1;
-params.K = 1;
+params.Rotation = [1;1;1];
 
-params.Mass_kg = 10;
+params.Mass_KG = 10;
+params.BodyRates_radps = [1;1;1];
 
 params.h0_m = 50;
 params.t_k = 50;
@@ -34,16 +31,24 @@ params.ThurstForcesAndMoments_N_Nm = [1;1;1];
 
 params.InertiaTensor_kgm2 = [1 0 1;0 1 0;-1 0 1];
 
-params.EulerAngles_rad = [1 1 1];
+params.EulerAngles_rad = [1;1;1];
 
-params.Extforces_N = [1;1;1];
+params.ExtForces_N = [1;1;1];
 params.Ext_Moments_Nm = [1;1;1];
 params.LoadFactors_N = [1;1;1];
 
 params.TAS = 150;
 
+[EulerAngles_rad, BodyVelocities, Extforces_Nm, Ext_Moments_Nm, LoadFactors_N, LBE, PositionInertial_m, GroundSpeed_mps, Gamma_angle_deg, Track_angle_deg] = eQMotion(params);
+params.LBE = LBE;
+params.BodyVelocities = BodyVelocities;
 
-[t1, spSound_mps, pActual, Mach, cdP, CAS] = IsaAtmo(params);
+
+[EngineForcesAndMoments, Thrust_N] = Propulsion(params);
+
+C_stabAxis = Aerodynamics_Coefficient(params);
+
+[t1, spSound_mps, pActual, Mach, cdP, CAS, AlphaVelocities_radps, Alpha_angle_radps, Beta_angle_radps] = IsaAtmo(params);
 
 disp('Actual Temperature');
 disp(t1);

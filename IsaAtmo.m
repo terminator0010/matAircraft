@@ -1,4 +1,4 @@
-function [t1, spSound_mps, pActual, Mach, cdP, CAS] = IsaAtmo(params)
+function [t1, spSound_mps, pActual, Mach, cdP, CAS, AlphaVelocities_radps, Alpha_angle_radps, Beta_angle_radps] = IsaAtmo(params)
 
   h = params.h0_m;
   t = params.t_k;
@@ -12,7 +12,9 @@ function [t1, spSound_mps, pActual, Mach, cdP, CAS] = IsaAtmo(params)
   P0 = params.P0;
   e = params.e;
   hTropo = params.hTropo;
-  TAS = params.TAS;
+  TAS_mps = params.TAS;
+  LBE = params.LBE;
+  BodyVelocities = params.BodyVelocities;
 
   t1 = (t0+k)*h;
 
@@ -25,43 +27,25 @@ function [t1, spSound_mps, pActual, Mach, cdP, CAS] = IsaAtmo(params)
 
   perfGasEq = pActual*R*t1;
 
+
+  LEB = transpose(LBE);
+
+  Bodywind_mps = LEB*InertialWind_mps;
+
+  WindSpeed_mps = BodyVelocities+Bodywind_mps;
+
+  TAS_mps = sqrt(WindSpeed_mps(1,1)^2 + WindSpeed_mps(1,2)^2 + WindSpeed_mps(1,3)^2);
+
+  Mach = TAS/spSound_mps;
+
   cdP = pActual*((((((gamma-1)/2)*Mach^2+1)^(gamma/(gamma-1))))-1);
 
-%Alpha_angle = atan2(w/u)
-%Beta_angle = sin^-1(v/Vinf)
+  Beta_angle_radps = asin(WindSpeed_mps(1,2)/TAS_mps)*(180/pi);
 
-%Vinf = sqrt(u²+v²+w²)
+  Alpha_angle_radps = atan2(WindSpeed_mps(1,3)/WindSpeed_mps(1,1))*(180/pi);
 
-%Wind_effect
-%Input
-%LBE
-%BodyVelocities
-%InertialWind_mps(x,y,z)
+  AlphaVelocities_radps = derivate(Alpha_angle_radps);
 
-%Output
-%BodyWind_mps
-%WindSpeed_mps
-%TrueAirSpeed_mps
-%Beta_angle
-%Alpha_angle
-
-
-LEB = transpose(LBE);
-
-Bodywind_mps = LEB*InertialWind_mps;
-
-WindSpeed_mps = BodyVelocities+Bodywind_mps;
-
-TAS_mps = sqrt(WindSpeed_mps(1,1)^2 + WindSpeed_mps(1,2)^2 + WindSpeed_mps(1,3)^2);
-
-Mach = TAS/spSound_mps;
-
-Beta_angle_radps = asin(WindSpeed_mps(1,2)/TrueAirSpeed_mps)*(180/pi);
-
-Alpha_angle_radps = atan2(WindSpeed_mps(1,3)/WindSpeed_mps(1,1))*(180/pi);
-
-AlphaVelocities_radps = derivate(Alpha_angle);
-
-CAS = sqrt((((2*spSound_mps^2)/(gamma-1))*((cdP/P0)+1)^((gamma-1)/gamma))-1);
+  CAS = sqrt((((2*spSound_mps^2)/(gamma-1))*((cdP/P0)+1)^((gamma-1)/gamma))-1);
 
   end
