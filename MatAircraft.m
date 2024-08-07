@@ -6,9 +6,11 @@ params.V = [0;0;0];
 
 params.EulerAngles_rad = [0; 0; 0];
 
-params.PQR = [1;1;1];
+params.pqr_radps = [1;1;1];
+params.pqr_dot = [1;1;1];
 
 params.H = 100;
+params.uvw_mps = [1;1;1];
 
 params.Rotation = [1;1;1];
 
@@ -40,6 +42,7 @@ params.LoadFactors_N = [1;1;1];
 params.TAS = 150;
 
 [EulerAngles_rad, BodyVelocities, Extforces_Nm, Ext_Moments_Nm, LoadFactors_N, LBE, PositionInertial_m, GroundSpeed_mps, Gamma_angle_deg, Track_angle_deg] = eQMotion(params);
+
 params.LBE = LBE;
 params.BodyVelocities = BodyVelocities;
 

@@ -12,10 +12,13 @@ ThurstForcesAndMoments_N_Nm = params.ThurstForcesAndMoments_N_Nm
 InertiaTensor_kgm2 = params.InertiaTensor_kgm2;
 V = params.V;
 Rotation = params.Rotation;
-phi = EulerAngles_rad(1,1);
-theta = EulerAngles_rad(2,1);
-psi = EulerAngles_rad(3,1);
-
+phi = params.EulerAngles_rad(1,1);
+theta = params.EulerAngles_rad(2,1);
+psi = params.EulerAngles_rad(3,1);
+InertiaTensor_kgm2 = params.InertiaTensor_kgm2;
+pqr_radps = params.pqr_radps;
+pqr_dot = params.pqr_dot;
+uvw_mps = params.uvw_mps;
 
 %Outuput
 %Extforces_N
@@ -30,32 +33,27 @@ psi = EulerAngles_rad(3,1);
 %Formulas
 
 %InertiaTensor_kgm
- x = Ixx*p_dot - Ixz*r_dot - q*(Ixz*p - Izz*r) - Iyy*q*r;
- y = Iyy*q_dot + p*(Ixz*p - Izz*r) + r*(Ixx*p - Ixz*r);
- z = Izz*r_dot - Ixz*p_dot - q*(Ixx*p - Ixz*r) + Iyy*p*q;
-InertiaTensor_kgm2 = [x;y;z];
 
 
-%Angular Rotation
-Lpsi = plV.Lpsi;
-Ltheta = plV.Ltheta;
-Lphi = plV.Lphi;
+ %x = Ixx*p_dot - Ixz*r_dot - q*(Ixz*p - Izz*r) - Iyy*q*r;
+ %y = Iyy*q_dot + p*(Ixz*p - Izz*r) + r*(Ixx*p - Ixz*r);
+ %z = Izz*r_dot - Ixz*p_dot - q*(Ixx*p - Ixz*r) + Iyy*p*q;
 
-pAngR = (Lpsi^-1)*(Ltheta^-1)*(Lphi^-1).*Rotation;
+ InertiaTensor_kgm2 = [InertiaTensor_kgm2(1,1)*pqr_dot(1,1) - InertiaTensor_kgm2(1,3)*pqr_dot(2,1) - pqr_radps(3,1)*(InertiaTensor_kgm2(1,3)*pqr_radps(1,1) - InertiaTensor_kgm2(3,3)*pqr_radps(2,1)) - InertiaTensor_kgm2(2,2)*pqr_radps(3,1)*pqr_radps(1,1);
+                       InertiaTensor_kgm2(2,2)*pqr_dot(2,1) + pqr_radps(1,1)*(InertiaTensor_kgm2(1,3)*pqr_radps(1,1) - InertiaTensor_kgm2(3,3)*pqr_radps(3,1)) + pqr_radps(3,1)*(InertiaTensor_kgm2(1,1)*pqr_radps(1,1)) - (InertiaTensor_kgm2(1,3)*pqr_radps(3,1));
+                       InertiaTensor_kgm2(3,3)*pqr_dot(3,1) - InertiaTensor_kgm2(1,3)*pqr_dot(1,1) - pqr_radps(2,1)*(InertiaTensor_kgm2(1,1)* pqr_radps(1,1) - InertiaTensor_kgm2(1,3)*pqr_radps(3,1)) + InertiaTensor_kgm2(2,2)*pqr_radps(1,1)*pqr_radps(2,1)];
+
+
 
 %BodyRates
-pqr_dot = (InertiaTensor_kgm2^-1)*(InertiaTensor_kgm2- Ext_Moments_Nm);
+pqr_dot = (InertiaTensor_kgm2.^-1).*(InertiaTensor_kgm2 - Ext_Moments_Nm);
 
-pqr_radps = Integral(pqr_dot);
+pqr_radps = quad(pqr_dot, 0,1);
 
-BodyRates_radps = (InertiaTensor_kgm2^-1)*((cross(pqr_radps,(InertiaTensor_kgm2*pqr_radps)))- Ext_Moments_NmMoments_Nm);
+BodyRates_radps = (InertiaTensor_kgm2.^-1)*(cross(pqr_radps,(InertiaTensor_kgm2*pqr_radps))- Ext_Moments_NmMoments_Nm);
 
 
-u_dot = plV.Lpsi;
-v_dot = plV.Ltheta;
-w_dot = plV.Lphi;
 
-pT = m*([u_dot; v_dot; w_dot] + cross([p;q;r],[u;v;w]));
 
 
 %BodyVelocities
@@ -80,6 +78,15 @@ Lphi = [1 0 0; 0 cos*EulerAngles_rad(phi) sin*EulerAngles_rad(phi); 0 -sin*Euler
 LBE = (Lphi*Ltheta*Lpsi).*V;
 
 %LBE = SICOS_Euler[(5,1)*(6,1) ((1,1)*(2,1)*(6,1))-((4,1)*(3,1)) ((6,1)*(2,1)*(4,1))+((1,1)*u(3,1)); (5,1)*(3,1) (1,1)*(2,1)*(3,1)+(4,1)*(6,1) ((4)*(2)*u(3))-((1)*(6)); -(2); (1,1)*(5,1) (4,1)*(5,1)];
+
+
+uvw_dot = [Lpsi; Ltheta; Lphi];
+
+pT = m*(uvw_dot + cross(pqr_radps,uvw_mps));
+
+
+%Angular Rotation
+pAngR = (Lpsi^-1)*(Ltheta^-1)*(Lphi^-1).*Rotation;
 
 W_N = [0;0;g_mps]*Mass_KG;
 
