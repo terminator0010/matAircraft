@@ -4,18 +4,18 @@ close all;
 
 params.V = [0;0;0];
 
-params.EulerAngles_rad = [0; 0; 0];
+params.EulerAngles_rad = [0;0;0];
 
-params.pqr_radps = [1;1;1];
-params.pqr_dot = [1;1;1];
+params.pqr_radps = [0;0;0];
+params.pqr_dot = [0;0;0];
 
 params.H = 100;
-params.uvw_mps = [1;1;1];
+params.uvw_mps = [0;0;0];
 
-params.Rotation = [1;1;1];
+params.Rotation = [0;0;0];
 
 params.Mass_KG = 10;
-params.BodyRates_radps = [1;1;1];
+params.BodyRates_radps = [0;0;0];
 
 params.h0_m = 50;
 params.t_k = 50;
@@ -27,32 +27,43 @@ params.hTropo = 11000;
 params.gConst = 1.4;
 params.HR = 287;
 
-params.GroundForcesAndMoments_N_Nm = [1;1;1];
-params.AeroForcesAndMoments_N_Nm = [1;1;;];
-params.ThurstForcesAndMoments_N_Nm = [1;1;1];
+params.GroundForcesAndMoments_N_Nm = [0;0;0];
+params.AeroForcesAndMoments_N_Nm = [0;0;0;];
+params.ThurstForcesAndMoments_N_Nm = [0;0;0];
 
 params.InertiaTensor_kgm2 = [1 0 1;0 1 0;-1 0 1];
 
-params.EulerAngles_rad = [1;1;1];
 
-params.ExtForces_N = [1;1;1];
-params.Ext_Moments_Nm = [1;1;1];
-params.LoadFactors_N = [1;1;1];
+params.ExtForces_N = [0;0;0];
+params.Ext_Moments_Nm = [0;0;0];
+params.LoadFactors_N = [0;0;0];
 
 params.TAS = 150;
 
-[EulerAngles_rad, BodyVelocities, Extforces_Nm, Ext_Moments_Nm, LoadFactors_N, LBE, PositionInertial_m, GroundSpeed_mps, Gamma_angle_deg, Track_angle_deg] = eQMotion(params);
 
-params.LBE = LBE;
-params.BodyVelocities = BodyVelocities;
+[InertiaTensor_kgm2, pqr_dot, pqr_radps, BodyRates_radps, I, BodyVelocities, EulerRates_radps2, EulerAngles_rad] = eQMotion(params);
+disp(InertiaTensor_kgm2);
+disp(pqr_dot);
+disp(pqr_radps);
+disp(I);
+disp(BodyRates_radps);
+disp(BodyVelocities);
+disp(EulerRates_radps2);
+disp(EulerAngles_rad);
+
+%[EulerAngles_rad, BodyVelocities, Extforces_Nm, Ext_Moments_Nm, LoadFactors_N, LBE, PositionInertial_m, GroundSpeed_mps, Gamma_angle_deg, Track_angle_deg] = eQMotion(params);
+
+%params.LBE = LBE;
+%params.BodyVelocities = BodyVelocities;
 
 
-[EngineForcesAndMoments, Thrust_N] = Propulsion(params);
+%[EngineForcesAndMoments, Thrust_N] = Propulsion(params);
 
-C_stabAxis = Aerodynamics_Coefficient(params);
+%C_stabAxis = Aerodynamics_Coefficient(params);
 
-[t1, spSound_mps, pActual, Mach, cdP, CAS, AlphaVelocities_radps, Alpha_angle_radps, Beta_angle_radps] = IsaAtmo(params);
+%[t1, spSound_mps, pActual, Mach, cdP, CAS, AlphaVelocities_radps, Alpha_angle_radps, Beta_angle_radps] = IsaAtmo(params);
 
+%{
 disp('Actual Temperature');
 disp(t1);
 disp('');
@@ -70,6 +81,8 @@ disp(cdP);
 disp('');
 disp('Calculated Airpressure Speed');
 disp(CAS);
+%}
+
 
 
 %{
@@ -81,7 +94,7 @@ plV.Lphi = Lphi;
 
 pAngR = planeAngRotation(params, plV);
 pAngR = planeAngRotation(params, plV);
-}%
+%}
 
 
 
@@ -112,7 +125,7 @@ disp(pAngR);
  title('Plane Angular Velocities','fontsize', 14)
  set(gca, 'fontsize', 14, 'ylim', [0 11], 'xlim', [0 11]);
  set(gcf, 'color', 'w');
- grid on }%
-
+ grid on
+ %}
 
 
