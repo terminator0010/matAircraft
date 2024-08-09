@@ -15,6 +15,7 @@ function [t1, spSound_mps, pActual, Mach, cdP, CAS, AlphaVelocities_radps, Alpha
   TAS_mps = params.TAS;
   LBE = params.LBE;
   BodyVelocities = params.BodyVelocities;
+  InertialWind_mps = params.InertialWind_mps;
 
   t1 = (t0+k)*h;
 

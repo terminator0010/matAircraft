@@ -4,7 +4,7 @@ close all;
 
 params.V = [0;0;0];
 
-params.EulerAngles_rad = [0;0;0];
+params.EulerAngles_rad = [1;1;1];
 
 params.pqr_radps = [0;0;0];
 params.pqr_dot = [0;0;0];
@@ -38,18 +38,44 @@ params.ExtForces_N = [0;0;0];
 params.Ext_Moments_Nm = [0;0;0];
 params.LoadFactors_N = [0;0;0];
 
+params.LBE = [0 0 0; 0 0 0; 0 0 0];
+params.BodyVelocities = [0;0;0];
+params.InertialWind_mps = [0;0;0];
+
 params.TAS = 150;
 
 
-[InertiaTensor_kgm2, pqr_dot, pqr_radps, BodyRates_radps, I, BodyVelocities, EulerRates_radps2, EulerAngles_rad] = eQMotion(params);
+
+
+[t1, spSound_mps, pActual, Mach, cdP, CAS, AlphaVelocities_radps, Alpha_angle_radps, Beta_angle_radps] = IsaAtmo(params);
+params.t1_k = t1;
+
+[InertiaTensor_kgm2, pqr_dot, pqr_radps, BodyRates_radps, I, BodyVelocities, EulerRates_radps2, EulerAngles_rad, LBE, uvw_dot, uvw_mps, pT] = eQMotion(params);
+
+disp('InertiaTensor_kgm2');
 disp(InertiaTensor_kgm2);
+disp('pqr_dot');
 disp(pqr_dot);
+disp('pqr_radps');
 disp(pqr_radps);
+disp('I');
 disp(I);
+disp('BodyRates_radps');
 disp(BodyRates_radps);
+disp('BodyVelocities');
 disp(BodyVelocities);
+disp('EulerRates_radps2');
 disp(EulerRates_radps2);
+disp('EulerAngles_rad');
 disp(EulerAngles_rad);
+disp('LBE');
+disp(LBE);
+disp('uvw_dot');
+disp(uvw_dot);
+disp('uvw_mps');
+disp(uvw_mps);
+disp('pT');
+disp(pT);
 
 %[EulerAngles_rad, BodyVelocities, Extforces_Nm, Ext_Moments_Nm, LoadFactors_N, LBE, PositionInertial_m, GroundSpeed_mps, Gamma_angle_deg, Track_angle_deg] = eQMotion(params);
 
