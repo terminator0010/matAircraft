@@ -35,17 +35,17 @@ function [t1, spSound_mps, pActual, Mach, cdP, CAS, AlphaVelocities_radps, Alpha
 
   WindSpeed_mps = BodyVelocities+Bodywind_mps;
 
-  TAS_mps = sqrt(WindSpeed_mps(1,1)^2 + WindSpeed_mps(1,2)^2 + WindSpeed_mps(1,3)^2);
+  TAS_mps = sqrt(WindSpeed_mps(1,1)^2 + WindSpeed_mps(2,1)^2 + WindSpeed_mps(3,1)^2);
 
-  Mach = TAS/spSound_mps;
+  Mach = TAS_mps/spSound_mps;
 
   cdP = pActual*((((((gamma-1)/2)*Mach^2+1)^(gamma/(gamma-1))))-1);
 
-  Beta_angle_radps = asin(WindSpeed_mps(1,2)/TAS_mps)*(180/pi);
+  Beta_angle_radps = asin(WindSpeed_mps(2,1)/TAS_mps)*(180/pi);
 
-  Alpha_angle_radps = atan2(WindSpeed_mps(1,3)/WindSpeed_mps(1,1))*(180/pi);
+  Alpha_angle_radps = atan2(WindSpeed_mps(3,1),WindSpeed_mps(1,1))*(180/pi);
 
-  AlphaVelocities_radps = derivate(Alpha_angle_radps);
+  AlphaVelocities_radps = diff(Alpha_angle_radps);
 
   CAS = sqrt((((2*spSound_mps^2)/(gamma-1))*((cdP/P0)+1)^((gamma-1)/gamma))-1);
 
