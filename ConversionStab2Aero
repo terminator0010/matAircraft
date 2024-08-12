@@ -1,0 +1,21 @@
+ConversionStab2AeroCoeffi
+Inputs
+CL
+CD
+CY
+CM
+CN
+
+Formula
+CxB = CL*sin(Alpha) - CD*cos(Alpha);
+CzB = -CL*cos(Alpha) - CD*sin(Alpha);
+CyB = CY;
+
+CmB = CM;
+ClB = CL*cos(Alpha) - CN*sin(Alpha);
+CnB = CL*sin(Alpha) + CN*cos(Alpha);
+
+Mcg = M25% + deltaXcg*(-Z)-Zcg*(-X);
+Mcg = M25% + X*Zcg - Z*deltaXcg;
+
+deltaXcg = CG-0,25;
