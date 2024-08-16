@@ -44,12 +44,14 @@ params.BodyVelocities = [0;0;0];
 params.InertialWind_mps = [0;0;0];
 
 params.TAS = 150;
+params.TAS_kt = 150*0.5144444;
 
 
 
 
 [t1, spSound_mps, pActual, Mach, cdP, CAS, AlphaVelocities_radps, Alpha_angle_radps, Beta_angle_radps] = IsaAtmo(params);
 params.t1_k = t1;
+params.CAS_kt = CAS*0.5144444;
 
 [InertiaTensor_kgm2, pqr_dot, pqr_radps, BodyRates_radps, I, BodyVelocities, EulerRates_radps2, EulerAngles_rad, LBE, uvw_dot, uvw_mps, pT] = eQMotion(params);
 
