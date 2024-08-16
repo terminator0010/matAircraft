@@ -54,6 +54,8 @@ params.t1_k = t1;
 params.CAS_kt = CAS*0.5144444;
 
 [InertiaTensor_kgm2, pqr_dot, pqr_radps, BodyRates_radps, I, BodyVelocities, EulerRates_radps2, EulerAngles_rad, LBE, uvw_dot, uvw_mps, pT] = eQMotion(params);
+params.EulerRates_deg = EulerRates_radps2*(180/pi);
+
 
 disp('InertiaTensor_kgm2');
 disp(InertiaTensor_kgm2);
@@ -81,7 +83,7 @@ disp('pT');
 disp(pT);
 
 %[EulerAngles_rad, BodyVelocities, Extforces_Nm, Ext_Moments_Nm, LoadFactors_N, LBE, PositionInertial_m, GroundSpeed_mps, Gamma_angle_deg, Track_angle_deg] = eQMotion(params);
-
+%params.GroundSpeed_kt = GroundSpeed_mps*0.5144444;
 %params.LBE = LBE;
 %params.BodyVelocities = BodyVelocities;
 
