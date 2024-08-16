@@ -1,6 +1,6 @@
 function [t1, spSound_mps, pActual, Mach, cdP, CAS, AlphaVelocities_radps, Alpha_angle_radps, Beta_angle_radps] = IsaAtmo(params)
 
-  h = params.h0_m;
+  h = params.h0_m*(-1);
   t = params.t_k;
   k = -0.0065;
   t0 = 288.15;
