@@ -10,6 +10,7 @@ params.pqr_radps = [0;0;0];
 params.pqr_dot = [0;0;0];
 
 params.H = 100;
+params.H_ft = params.h0*(-0.3048);
 params.uvw_mps = [0;0;0];
 
 params.Rotation = [0;0;0];
