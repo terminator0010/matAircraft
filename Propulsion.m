@@ -1,4 +1,4 @@
-function [EngineForcesAndMoments, Thrust_N] = Propulsion(params)
+function [EngineForcesAndMoments, Thrust_N, TAS_Vref] = Propulsion(params)
 
 %Generic thrust model
 %Thrust = Tc*Tmax*(V/Vref)^nv * (PActual/Pref)^np
@@ -9,8 +9,8 @@ function [EngineForcesAndMoments, Thrust_N] = Propulsion(params)
 %ThrustAngle = AlphaAngle-ThrustForce
 
 %Input
-%TAS
-%rho
+params.TAS;
+params.rho;
 %V_reference_mps
 %Rho_reference_kgpm3
 
@@ -31,9 +31,9 @@ z_engine_N = sin(alfa_radps);
 Thrust = [x_engine_N; y_engine_N; z_engine_N];
 L_engine_m = 0;
 
-xf = Thrust(1,2)*xf_m;
-yf = Thrust(1,2)*0;
-zf = Thrust(1,3)*zf_m;
+xf = Thrust(2,1)*xf_m;
+yf = Thrust(2,1)*0;
+zf = Thrust(3,1)*zf_m;
 
 xyz_engine = [xf; yf; zf];
 

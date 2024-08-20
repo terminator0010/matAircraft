@@ -10,7 +10,6 @@ params.pqr_radps = [0;0;0];
 params.pqr_dot = [0;0;0];
 
 params.H = 100;
-params.H_ft = params.h0*(-0.3048);
 params.uvw_mps = [0;0;0];
 
 params.Rotation = [0;0;0];
@@ -19,6 +18,7 @@ params.Mass_KG = 10;
 params.BodyRates_radps = [0;0;0];
 
 params.h0_m = 50;
+params.H_ft_z = params.h0_m*(-0.3048);
 params.t_k = 50;
 params.g_mps = 9.80665;
 params.P0 = 101325;
@@ -50,6 +50,9 @@ params.TAS_kt = 150*0.5144444;
 
 
 [t1, spSound_mps, pActual, Mach, cdP, CAS, AlphaVelocities_radps, Alpha_angle_radps, Beta_angle_radps] = IsaAtmo(params);
+disp('Ambient Temperature in Kelvins');
+disp(t1);
+
 params.t1_k = t1;
 params.CAS_kt = CAS*0.5144444;
 
@@ -82,10 +85,9 @@ disp(uvw_mps);
 disp('pT');
 disp(pT);
 
-%[EulerAngles_rad, BodyVelocities, Extforces_Nm, Ext_Moments_Nm, LoadFactors_N, LBE, PositionInertial_m, GroundSpeed_mps, Gamma_angle_deg, Track_angle_deg] = eQMotion(params);
-%params.GroundSpeed_kt = GroundSpeed_mps*0.5144444;
-%params.LBE = LBE;
-%params.BodyVelocities = BodyVelocities;
+[EngineForcesAndMoments, Thrust_N, TAS_Vref] = Propulsion(params);
+disp('True Air Speed');
+disp(TAS_Vref);
 
 
 %[EngineForcesAndMoments, Thrust_N] = Propulsion(params);
