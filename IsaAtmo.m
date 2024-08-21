@@ -1,4 +1,4 @@
-function [t1, spSound_mps, pActual, Mach, cdP, CAS, AlphaVelocities_radps, Alpha_angle_radps, Beta_angle_radps] = IsaAtmo(params)
+function [t1, spSound_mps, pActual, Mach, cdP, CAS, AlphaVelocities_radps, Alpha_angle_radps, Beta_angle_radps, perfGasEq] = IsaAtmo(params)
 
   h = params.h0_m*(-1);
   t = params.t_k;
@@ -26,7 +26,7 @@ function [t1, spSound_mps, pActual, Mach, cdP, CAS, AlphaVelocities_radps, Alpha
 
   pActual = pEleven*pAbEleven;
 
-  perfGasEq = pActual*R*t1;
+  perfGasEq = pActual/(R*t1);
 
 
   LEB = transpose(LBE);
@@ -41,9 +41,9 @@ function [t1, spSound_mps, pActual, Mach, cdP, CAS, AlphaVelocities_radps, Alpha
 
   cdP = pActual*((((((gamma-1)/2)*Mach^2+1)^(gamma/(gamma-1))))-1);
 
-  Beta_angle_radps = asin(WindSpeed_mps(2,1)/TAS_mps)*(180/pi);
+  Beta_angle_radps = asin(WindSpeed_mps(2,1)/TAS_mps)*(pi/180);
 
-  Alpha_angle_radps = atan2(WindSpeed_mps(3,1),WindSpeed_mps(1,1))*(180/pi);
+  Alpha_angle_radps = atan2(WindSpeed_mps(3,1),WindSpeed_mps(1,1))*(pi/180);
 
   AlphaVelocities_radps = diff(Alpha_angle_radps);
 

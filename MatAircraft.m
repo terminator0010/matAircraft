@@ -5,6 +5,7 @@ close all;
 params.V = [0;0;0];
 
 params.EulerAngles_rad = [1;1;1];
+params.Alpha_angle_radps = 0;
 
 params.pqr_radps = [0;0;0];
 params.pqr_dot = [0;0;0];
@@ -27,6 +28,7 @@ params.e = 2.718281;
 params.hTropo = 11000;
 params.gConst = 1.4;
 params.HR = 287;
+params.perfGasEq_ref_kgpm3 = 1.225;
 
 params.GroundForcesAndMoments_N_Nm = [0;0;0];
 params.AeroForcesAndMoments_N_Nm = [0;0;0;];
@@ -46,18 +48,30 @@ params.InertialWind_mps = [0;0;0];
 params.TAS = 150;
 params.TAS_kt = 150*0.5144444;
 
+%for turbofan
+%nv = 0
+%np = 0.7
+%for turboprop
+params.nv = -1;
+params.np = - 1;
+
+params.TC = 0;
+params.Tmax = 0;
 
 
 
-[t1, spSound_mps, pActual, Mach, cdP, CAS, AlphaVelocities_radps, Alpha_angle_radps, Beta_angle_radps] = IsaAtmo(params);
+
+[t1, spSound_mps, pActual, Mach, cdP, CAS, AlphaVelocities_radps, Alpha_angle_radps, Beta_angle_radps, perfGasEq] = IsaAtmo(params);
 disp('Ambient Temperature in Kelvins');
 disp(t1);
+params.perfGasEq = perfGasEq;
+params.Alpha_angle_radps = Alpha_angle_radps;
 
 params.t1_k = t1;
 params.CAS_kt = CAS*0.5144444;
 
 [InertiaTensor_kgm2, pqr_dot, pqr_radps, BodyRates_radps, I, BodyVelocities, EulerRates_radps2, EulerAngles_rad, LBE, uvw_dot, uvw_mps, pT] = eQMotion(params);
-params.EulerRates_deg = EulerRates_radps2*(180/pi);
+params.EulerRates_deg = EulerRates_radps2*(pi*180);
 
 
 disp('InertiaTensor_kgm2');
