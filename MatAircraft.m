@@ -45,7 +45,7 @@ params.LBE = [0 0 0; 0 0 0; 0 0 0];
 params.BodyVelocities = [0;0;0];
 params.InertialWind_mps = [0;0;0];
 
-params.TAS = 150;
+params.TAS_mps = 150;
 params.TAS_kt = 150*0.5144444;
 
 %for turbofan
@@ -62,10 +62,9 @@ params.Tmax = 0;
 
 
 [t1, spSound_mps, pActual, Mach, cdP, CAS, AlphaVelocities_radps, Alpha_angle_radps, Beta_angle_radps, perfGasEq] = IsaAtmo(params);
-disp('Ambient Temperature in Kelvins');
-disp(t1);
 params.perfGasEq = perfGasEq;
 params.Alpha_angle_radps = Alpha_angle_radps;
+params.Beta_angle_radps = Beta_angle_radps;
 
 params.t1_k = t1;
 params.CAS_kt = CAS*0.5144444;
@@ -73,81 +72,17 @@ params.CAS_kt = CAS*0.5144444;
 [InertiaTensor_kgm2, pqr_dot, pqr_radps, BodyRates_radps, I, BodyVelocities, EulerRates_radps2, EulerAngles_rad, LBE, uvw_dot, uvw_mps, pT] = eQMotion(params);
 params.EulerRates_deg = EulerRates_radps2*(pi*180);
 
-
-disp('InertiaTensor_kgm2');
-disp(InertiaTensor_kgm2);
-disp('pqr_dot');
-disp(pqr_dot);
-disp('pqr_radps');
-disp(pqr_radps);
-disp('I');
-disp(I);
-disp('BodyRates_radps');
-disp(BodyRates_radps);
-disp('BodyVelocities');
-disp(BodyVelocities);
-disp('EulerRates_radps2');
-disp(EulerRates_radps2);
-disp('EulerAngles_rad');
-disp(EulerAngles_rad);
-disp('LBE');
-disp(LBE);
-disp('uvw_dot');
-disp(uvw_dot);
-disp('uvw_mps');
-disp(uvw_mps);
-disp('pT');
-disp(pT);
-
 [EngineForcesAndMoments, Thrust_N, TAS_Vref] = Propulsion(params);
-disp('True Air Speed');
-disp(TAS_Vref);
+
+C_stabAxis = Aerodynamics_Coefficient(params);
+
+AeroForcesMoments = AeroforcesandMoments(params);
+
+C_stabAxis = Aerodynamics_Coefficient(params);
+
+[CxB, CyB, CzB, ClB, CmB, CnB, deltaXcg, Mcg] = ConversionStab2AeroCoeffi(params);
 
 
-%[EngineForcesAndMoments, Thrust_N] = Propulsion(params);
-
-%C_stabAxis = Aerodynamics_Coefficient(params);
-
-%[t1, spSound_mps, pActual, Mach, cdP, CAS, AlphaVelocities_radps, Alpha_angle_radps, Beta_angle_radps] = IsaAtmo(params);
-
-%{
-disp('Actual Temperature');
-disp(t1);
-disp('');
-disp('Speed of Sound /Mps');
-disp(spSound_mps);
-disp('');
-disp('Actual Pressure');
-disp(pActual);
-disp('');
-disp('Mach Number');
-disp(Mach);
-disp('');
-disp('Dynamic Pressure');
-disp(cdP);
-disp('');
-disp('Calculated Airpressure Speed');
-disp(CAS);
-%}
-
-
-
-%{
-[pV, Lpsi, Ltheta, Lphi] = LBE(params);
-
-plV.Lpsi = Lpsi;
-plV.Ltheta = Ltheta;
-plV.Lphi = Lphi;
-
-pAngR = planeAngRotation(params, plV);
-pAngR = planeAngRotation(params, plV);
-%}
-
-
-
-%pT = planeTranslation(plV, params, m);
-
-%iT = inertiaTensor(params, pAngR);
 
 %disp(pV);
 

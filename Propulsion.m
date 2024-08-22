@@ -9,7 +9,7 @@ function [EngineForcesAndMoments, Thrust_N, TAS_Vref] = Propulsion(params)
 %ThrustAngle = AlphaAngle-ThrustForce
 
 %Input
-TAS = params.TAS;
+TAS = params.TAS_mps;
 perfGasEq = params.perfGasEq;
 perfGasEq_ref_kgpm3 = params.perfGasEq_ref_kgpm3;
 V_reference_mps = params.V;

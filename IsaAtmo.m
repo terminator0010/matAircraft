@@ -12,7 +12,7 @@ function [t1, spSound_mps, pActual, Mach, cdP, CAS, AlphaVelocities_radps, Alpha
   P0 = params.P0;
   e = params.e;
   hTropo = params.hTropo;
-  TAS_mps = params.TAS;
+  TAS_mps = params.TAS_mps;
   LBE = params.LBE;
   BodyVelocities = params.BodyVelocities;
   InertialWind_mps = params.InertialWind_mps;

@@ -23,7 +23,6 @@ uvw_mps = params.uvw_mps;
 t1_k = params.t1_k;
 
 
-
 %InertiaTensor_kgm
 
 
@@ -45,9 +44,6 @@ pqr_radps = trapz(pqr_dot,2);
 I = InertiaTensor_kgm2.*pqr_radps;
 
 BodyRates_radps = (InertiaTensor_kgm2.*-1).*(cross(pqr_radps,I))- Ext_Moments_Nm;
-
-
-
 
 
 %BodyVelocities
@@ -105,7 +101,7 @@ Ze_dot = InertialVelocity_mps(3,1);
 GroundSpeed_mps = sqrt(Xe_dot^2+Ye_dot^2);
 
 %Gamma_Angle
-Gamma_angle_deg = atan2(GroundSpeed_mps,(-1*Ze_dot))*(180*pi);
+Gamma_angle_deg = atan2(GroundSpeed_mps,(-1*Ze_dot))*(pi*180);
 
 
 %Track_angle
