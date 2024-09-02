@@ -15,7 +15,7 @@ params.uvw_mps = [0;0;0];
 
 params.Rotation = [0;0;0];
 
-params.Mass_KG = 10;
+
 params.BodyRates_radps = [0;0;0];
 
 params.h0_m = 50;
@@ -34,8 +34,6 @@ params.GroundForcesAndMoments_N_Nm = [0;0;0];
 params.AeroForcesAndMoments_N_Nm = [0;0;0;];
 params.ThurstForcesAndMoments_N_Nm = [0;0;0];
 
-params.InertiaTensor_kgm2 = [1 0 1;0 1 0;-1 0 1];
-
 
 params.ExtForces_N = [0;0;0];
 params.Ext_Moments_Nm = [0;0;0];
@@ -48,15 +46,56 @@ params.InertialWind_mps = [0;0;0];
 params.TAS_mps = 150;
 params.TAS_kt = 150*0.5144444;
 
+params.TC = 0;
+
+
+
+[Inertia, y_cg, z_cg, nv, nrho, alfaf_deg, xf_m, zf_m, Tmax, S, c, b, CL0, CL_alpha, CL_elev, CL_AlphaDot, CL_q, CD0, CD_alpha, CD_elev, CY_beta, CY_rud, CY_ail, CY_r, CY_p, Cl_beta, Cl_rud, Cl_ail, Cl_r, Cl_p, Cm0, Cm_alpha, Cm_elev, Cm_AlphaDot, Cm_q, Cn_beta, Cn_rud, Cn_ail, Cn_r, Cn_p] = initACFT_low(params)
+params.InertiaTensor_kgm2 = Inertia;
+params.Mass_KG = ;
+params.nv = nv;
 %for turbofan
 %nv = 0
 %np = 0.7
 %for turboprop
-params.nv = -1;
-params.np = - 1;
+params.np = nrho;
+params.Tmax = Tmax;
+params.y_cg = y_cg;
+params.z_cg = z_cg;
+params.xf_m = xf_m;
+params.zf_m = zf_m;
+params.S = S;
+params.b = b;
+params.c = c;
+params.CL0 = CL0;
+params.CL_alpha = CL_alpha;
+params.CL_elev = CL_elev;
+params.CL_AlphaDot = CL_AlphaDot;
+params.CL_q = CL_q;
+params.CD0 = CD0;
+params.CD_alpha = CD_alpha;
+params.CD_elev = CD_elev;
+params.CY_beta = CY_beta;
+params.CY_rud = CY_rud;
+params.CY_ail = CY_ail;
+params.CY_r = CY_r;
+params.CY_p = CY_p;
+params.Cl_beta = Cl_beta;
+params.Cl_rud = Cl_rud;
+params.Cl_ail = Cl_ail;
+params.Cl_r = Cl_r;
+params.Cl_p = Cl_p;
+params.Cm0 = Cm0;
+params.Cm_alpha = Cm_alpha;
+params.Cm_elev = Cm_elev;
+params.Cm_AlphaDot = Cm_AlphaDot;
+params.Cm_q = Cm_q;
+params.Cn_beta = Cn_beta;
+params.Cn_rud = Cn_rud;
+params.Cn_ail = Cn_ail;
+params.Cn_r = Cn_r;
+params.Cn_p = Cn_p;
 
-params.TC = 0;
-params.Tmax = 0;
 
 
 
