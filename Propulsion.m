@@ -17,8 +17,8 @@ nv = params.nv;
 np = params.np;
 Tc = params.TC;
 Tmax = params.Tmax;
-xf_m = 0;
-zf_m = 0;
+xf_m = params.xf_m;
+zf_m = params.zf_m;
 Alpha_radps = params.Alpha_angle_radps;
 
 

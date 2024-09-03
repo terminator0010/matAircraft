@@ -3,14 +3,20 @@ clear;
 close all;
 
 params.V = [0;0;0];
+params.Ixx = initACFT_low.Ixx;
+params.Iyy = initACFT_low.Iyy;
+params.Izz = initACFT_low.Izz;
 
-params.EulerAngles_rad = [1;1;1];
+Gamma_deg = trim_input.Gamma_deg;
+CG_Mac = trim_input.cg;
+
+params.EulerAngles_rad = [1;1;trim_input.Phi];
 params.Alpha_angle_radps = 0;
 
 params.pqr_radps = [0;0;0];
 params.pqr_dot = [0;0;0];
 
-params.H = 100;
+params.H = trim_input.Alt_ft*0.3048;
 params.uvw_mps = [0;0;0];
 
 params.Rotation = [0;0;0];
@@ -43,25 +49,25 @@ params.LBE = [0 0 0; 0 0 0; 0 0 0];
 params.BodyVelocities = [0;0;0];
 params.InertialWind_mps = [0;0;0];
 
-params.TAS_mps = 150;
-params.TAS_kt = 150*0.5144444;
+params.TAS_mps = trim_input.KCAS*0.5144444;
 
-params.TC = 0;
+params.TC = trim_input.Throttle;
 
 
 
 [Inertia, y_cg, z_cg, nv, nrho, alfaf_deg, xf_m, zf_m, Tmax, S, c, b, CL0, CL_alpha, CL_elev, CL_AlphaDot, CL_q, CD0, CD_alpha, CD_elev, CY_beta, CY_rud, CY_ail, CY_r, CY_p, Cl_beta, Cl_rud, Cl_ail, Cl_r, Cl_p, Cm0, Cm_alpha, Cm_elev, Cm_AlphaDot, Cm_q, Cn_beta, Cn_rud, Cn_ail, Cn_r, Cn_p] = initACFT_low(params)
 params.InertiaTensor_kgm2 = Inertia;
-params.Mass_KG = ;
+params.Mass_KG = 18000;
 params.nv = nv;
 %for turbofan
 %nv = 0
 %np = 0.7
 %for turboprop
 params.np = nrho;
+params.alfaf_deg = alfaf_deg;
 params.Tmax = Tmax;
-params.y_cg = y_cg;
-params.z_cg = z_cg;
+params.Ycg_m = y_cg;
+params.Zcg_m = z_cg;
 params.xf_m = xf_m;
 params.zf_m = zf_m;
 params.S = S;
@@ -80,11 +86,11 @@ params.CY_rud = CY_rud;
 params.CY_ail = CY_ail;
 params.CY_r = CY_r;
 params.CY_p = CY_p;
-params.Cl_beta = Cl_beta;
-params.Cl_rud = Cl_rud;
-params.Cl_ail = Cl_ail;
-params.Cl_r = Cl_r;
-params.Cl_p = Cl_p;
+params.CI_beta = Cl_beta;
+params.CI_rud = Cl_rud;
+params.CI_ail = Cl_ail;
+params.CI_r = Cl_r;
+params.CI_p = Cl_p;
 params.Cm0 = Cm0;
 params.Cm_alpha = Cm_alpha;
 params.Cm_elev = Cm_elev;
@@ -95,9 +101,6 @@ params.Cn_rud = Cn_rud;
 params.Cn_ail = Cn_ail;
 params.Cn_r = Cn_r;
 params.Cn_p = Cn_p;
-
-
-
 
 
 [t1, spSound_mps, pActual, Mach, cdP, CAS, AlphaVelocities_radps, Alpha_angle_radps, Beta_angle_radps, perfGasEq] = IsaAtmo(params);
