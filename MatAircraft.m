@@ -3,12 +3,7 @@ clear;
 close all;
 
 params.V = [0;0;0];
-params.Ixx = initACFT_low.Ixx;
-params.Iyy = initACFT_low.Iyy;
-params.Izz = initACFT_low.Izz;
 
-Gamma_deg = trim_input.Gamma_deg;
-CG_Mac = trim_input.cg;
 
 params.EulerAngles_rad = [1;1;trim_input.Phi];
 params.Alpha_angle_radps = 0;
@@ -53,6 +48,10 @@ params.TAS_mps = trim_input.KCAS*0.5144444;
 
 params.TC = trim_input.Throttle;
 
+
+params.Ixx = initACFT_low.Ixx;
+params.Iyy = initACFT_low.Iyy;
+params.Izz = initACFT_low.Izz;
 
 
 [Inertia, y_cg, z_cg, nv, nrho, alfaf_deg, xf_m, zf_m, Tmax, S, c, b, CL0, CL_alpha, CL_elev, CL_AlphaDot, CL_q, CD0, CD_alpha, CD_elev, CY_beta, CY_rud, CY_ail, CY_r, CY_p, Cl_beta, Cl_rud, Cl_ail, Cl_r, Cl_p, Cm0, Cm_alpha, Cm_elev, Cm_AlphaDot, Cm_q, Cn_beta, Cn_rud, Cn_ail, Cn_r, Cn_p] = initACFT_low(params)
@@ -101,6 +100,8 @@ params.Cn_rud = Cn_rud;
 params.Cn_ail = Cn_ail;
 params.Cn_r = Cn_r;
 params.Cn_p = Cn_p;
+Gamma_deg = trim_input.Gamma_deg;
+CG_Mac = trim_input.cg;
 
 
 [t1, spSound_mps, pActual, Mach, cdP, CAS, AlphaVelocities_radps, Alpha_angle_radps, Beta_angle_radps, perfGasEq] = IsaAtmo(params);
@@ -110,6 +111,7 @@ params.Beta_angle_radps = Beta_angle_radps;
 
 params.t1_k = t1;
 params.CAS_kt = CAS*0.5144444;
+
 
 [InertiaTensor_kgm2, pqr_dot, pqr_radps, BodyRates_radps, I, BodyVelocities, EulerRates_radps2, EulerAngles_rad, LBE, uvw_dot, uvw_mps, pT] = eQMotion(params);
 params.EulerRates_deg = EulerRates_radps2*(pi*180);

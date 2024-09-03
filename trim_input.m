@@ -1,5 +1,5 @@
 %% INPUT DATA
-
+function [mass, cg, Alt_ft, KCAS, Gamma_deg, Phi_deg, Throttle] = trim_input(params)
 mass = 18000;
 cg = 0.47;
 Alt_ft = 40000;
@@ -219,3 +219,5 @@ opt = findopOptions('DisplayReport','iter');
 
 %% Perform the operating point search.
 [op,opreport] = findop(model,opspec,opt);
+
+end
