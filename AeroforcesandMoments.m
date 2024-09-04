@@ -19,16 +19,17 @@ ClB = params.ClB;
 CmB = params.CmB;
 CnB = params.CnB;
 Mcg = params.Mcg;
-Ixx = params.Ixx;
-Iyy = params.Iyy;
-Izz = params.Izz;
+X = params.PositionInertial_m(1,1);
+Y = params.PositionInertial_m(2,1);
+Z = params.PositionInertial_m(3,1);
+
 
 
 %Yaw Cg
-Ncg = N25 + Iyy*deltaXcg + Ixx*Ycg_m
+Ncg = N25 + Y*deltaXcg + X*Ycg_m
 
 %Rolling Cg
-Lcg = L25 + Iyy*Zcg_m - Izz*Ycg_m
+Lcg = L25 + Y*Zcg_m - Z*Ycg_m
 
 dynP_Pa = (perfGasEq/2) * TAS_mps^2;
 

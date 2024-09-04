@@ -5,9 +5,9 @@ cg = 0.47;
 Alt_ft = 40000;
 KCAS = 230;
 Gamma_deg = 0;
-Phi_deg = 0;
+Phi_deg = 1;
 Throttle = -1; % if throtle is -1, then will float throttle
-
+%{
 %% Search for a specified operating point for the model - ACFT.
 %
 % This MATLAB script is the command line equivalent of the trim model
@@ -219,5 +219,6 @@ opt = findopOptions('DisplayReport','iter');
 
 %% Perform the operating point search.
 [op,opreport] = findop(model,opspec,opt);
+%}
 
 end

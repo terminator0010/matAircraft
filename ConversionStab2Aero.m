@@ -6,8 +6,9 @@ CY = params.CY;
 CM = params.CM;
 CN = params.CN;
 M25 = params.M25;
-X = params.X;
-Y = params.Y;
+X = params.PositionInertial_m(1,1);
+Y = params.PositionInertial_m(2,1);
+Z = params.PositionInertial_m(3,1);
 CG = params.CG;
 
 %Formula

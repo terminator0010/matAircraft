@@ -4,16 +4,17 @@ close all;
 
 params.V = [0;0;0];
 
-
-params.EulerAngles_rad = [1;1;trim_input.Phi];
+params.EulerAngles_rad = [1;1;1];
 params.Alpha_angle_radps = 0;
+params.Gamma_deg = 0;
+params.Phi_deg = 0;
 
 params.pqr_radps = [0;0;0];
 params.pqr_dot = [0;0;0];
 
-params.H = trim_input.Alt_ft*0.3048;
+%params.H = trim_input.Alt_ft*(-0.3048);
 params.uvw_mps = [0;0;0];
-
+params.PositionInertial_m = [0;0;0]
 params.Rotation = [0;0;0];
 
 
@@ -44,14 +45,7 @@ params.LBE = [0 0 0; 0 0 0; 0 0 0];
 params.BodyVelocities = [0;0;0];
 params.InertialWind_mps = [0;0;0];
 
-params.TAS_mps = trim_input.KCAS*0.5144444;
 
-params.TC = trim_input.Throttle;
-
-
-params.Ixx = initACFT_low.Ixx;
-params.Iyy = initACFT_low.Iyy;
-params.Izz = initACFT_low.Izz;
 
 
 [Inertia, y_cg, z_cg, nv, nrho, alfaf_deg, xf_m, zf_m, Tmax, S, c, b, CL0, CL_alpha, CL_elev, CL_AlphaDot, CL_q, CD0, CD_alpha, CD_elev, CY_beta, CY_rud, CY_ail, CY_r, CY_p, Cl_beta, Cl_rud, Cl_ail, Cl_r, Cl_p, Cm0, Cm_alpha, Cm_elev, Cm_AlphaDot, Cm_q, Cn_beta, Cn_rud, Cn_ail, Cn_r, Cn_p] = initACFT_low(params)
@@ -100,27 +94,37 @@ params.Cn_rud = Cn_rud;
 params.Cn_ail = Cn_ail;
 params.Cn_r = Cn_r;
 params.Cn_p = Cn_p;
-Gamma_deg = trim_input.Gamma_deg;
-CG_Mac = trim_input.cg;
 
+
+
+[mass, cg, Alt_ft, KCAS, Gamma_deg, Phi_deg, Throttle] = trim_input(params)
+params.Phi_deg = Phi_deg;
+params.H = Alt_ft*(-0.3048);
+params.TAS_mps = KCAS*0.5144444;
+params.TC = Throttle;
+params.Gamma_deg = Gamma_deg;
+params.CG_Mac = cg;
 
 [t1, spSound_mps, pActual, Mach, cdP, CAS, AlphaVelocities_radps, Alpha_angle_radps, Beta_angle_radps, perfGasEq] = IsaAtmo(params);
 params.perfGasEq = perfGasEq;
 params.Alpha_angle_radps = Alpha_angle_radps;
 params.Beta_angle_radps = Beta_angle_radps;
-
 params.t1_k = t1;
 params.CAS_kt = CAS*0.5144444;
 
 
-[InertiaTensor_kgm2, pqr_dot, pqr_radps, BodyRates_radps, I, BodyVelocities, EulerRates_radps2, EulerAngles_rad, LBE, uvw_dot, uvw_mps, pT] = eQMotion(params);
+[InertiaTensor_kgm2, pqr_dot, pqr_radps, BodyRates_radps, I, BodyVelocities, EulerRates_radps2, EulerAngles_rad, LBE, uvw_dot, uvw_mps, pT, PositionInertial_m] = eQMotion(params);
 params.EulerRates_deg = EulerRates_radps2*(pi*180);
+params.PositionInertial_m;
 
 [EngineForcesAndMoments, Thrust_N, TAS_Vref] = Propulsion(params);
 
 C_stabAxis = Aerodynamics_Coefficient(params);
 
 AeroForcesMoments = AeroforcesandMoments(params);
+params.X_Aero_N = AeroForcesMoments(1,1);
+params.Y_Aero_N = AeroForcesMoments(2,1);
+params.Z_Aero_N = AeroForcesMoments(3,1);
 
 C_stabAxis = Aerodynamics_Coefficient(params);
 
