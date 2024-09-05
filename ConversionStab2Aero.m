@@ -1,8 +1,8 @@
-function [CxB, CyB, CzB, ClB, CmB, CnB, deltaXcg, Mcg] = ConversionStab2AeroCoeffi(params)
+function [CxB, CyB, CzB, ClB, CmB, CnB, deltaXcg, Mcg] = ConversionStab2Aero(params)
 %Inputs
-CL = params.CL;
-CD = params.CD;
-CY = params.CY;
+CL0 = params.CL0;
+CD0 = params.CD0;
+CY0 = params.CY0;
 CM = params.CM;
 CN = params.CN;
 M25 = params.M25;
@@ -12,9 +12,9 @@ Z = params.PositionInertial_m(3,1);
 CG = params.CG;
 
 %Formula
-CxB = CL*sin(Alpha) - CD*cos(Alpha);
-CzB = -CL*cos(Alpha) - CD*sin(Alpha);
-CyB = CY;
+CxB = CL0*sin(Alpha) - CD0*cos(Alpha);
+CzB = -CL0*cos(Alpha) - CD0*sin(Alpha);
+CyB = CY0;
 
 CmB = CM;
 ClB = CL*cos(Alpha) - CN*sin(Alpha);

@@ -1,4 +1,4 @@
-function [InertiaTensor_kgm2, pqr_dot, pqr_radps, BodyRates_radps, I, BodyVelocities, EulerRates_radps2, EulerAngles_rad, LBE, uvw_dot, uvw_mps, pT, PositionInertial_m] = eQMotion(params)
+function [InertiaTensor_kgm2, pqr_dot, pqr_radps, BodyRates_radps, I, BodyVelocities, EulerRates_radps2, LBE, uvw_dot, uvw_mps, pT, PositionInertial_m, Gamma_angle_deg] = eQMotion(params)
 
 %Input
 ExtForces_N = params.ExtForces_N;
@@ -58,7 +58,7 @@ EulerAngles_rad = trapz(EulerRates_radps2, 2);
 
 %LBE(params)
 Lpsi = [cos(EulerAngles_rad(psi)) sin(EulerAngles_rad(psi)) 0; -sin(EulerAngles_rad(psi)) cos(EulerAngles_rad(psi)) 0; 0 0 1];
-Ltheta = [cos(EulerAngles_rad(theta)) 0 -sin(EulerAngles_rad(theta)); 0 1 0; sin(EulerAngles_rad(theta)) 0 cos(EulerAngles_rad(2,1))];
+Ltheta = [cos(EulerAngles_rad(theta)) 0 -sin(EulerAngles_rad(theta)); 0 1 0; sin(EulerAngles_rad(theta)) 0 cos(EulerAngles_rad(theta))];
 Lphi = [1 0 0; 0 cos(EulerAngles_rad(phi)) sin(EulerAngles_rad(phi)); 0 -sin(EulerAngles_rad(phi)) cos(EulerAngles_rad(phi))];
 
 LBE = (Lphi*Ltheta*Lpsi).*V;
