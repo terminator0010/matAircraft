@@ -3,8 +3,8 @@ clear;
 close all;
 
 params.V = [0;0;0];
+l = 0;
 params.EulerAngles_rad = [1;1;1];
-params.Alpha_angle_radps = 0;
 params.Gamma_deg = 0;
 params.Phi_deg = 0;
 
@@ -46,6 +46,7 @@ params.TAS_mps = 0;
 
 params.N25 = 0;
 params.L25 = 0;
+params.deltaXcg = 0;
 
 
 
@@ -101,6 +102,7 @@ params.Cn_ail = Cn_ail;
 params.Cn_r = Cn_r;
 params.Cn_p = Cn_p;
 
+
 [mass, cg, Alt_ft, KCAS, Gamma_deg, Phi_deg, Throttle] = trim_input(params);
 params.H = Alt_ft*(-0.3048);
 params.TAS_mps = KCAS*0.5144444;
@@ -125,15 +127,15 @@ params.pqr_radps = pqr_radps;
 
 [EngineForcesAndMoments, Thrust_N, TAS_Vref] = Propulsion(params);
 
-[CxB, CyB, CzB, ClB, CmB, CnB, deltaXcg, Mcg] = ConversionStab2Aero(params);
+C_stabAxis = Aerodynamics_Coefficient(params)
 
-C_stabAxis = Aerodynamics_Coefficient(params);
 
 AeroForcesMoments = AeroforcesandMoments(params);
 params.X_Aero_N = AeroForcesMoments(1,1);
 params.Y_Aero_N = AeroForcesMoments(2,1);
 params.Z_Aero_N = AeroForcesMoments(3,1);
 
+[CxB, CyB, CzB, ClB, CmB, CnB, deltaXcg, Mcg] = ConversionStab2Aero(params);
 
 
 %disp(pV);

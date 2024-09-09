@@ -36,7 +36,7 @@ dynP_Pa = (perfGasEq/2) * TAS_mps^2;
 Qstab = dynP_Pa * WingArea_m2;
 
 X_Aero_N = Qstab * CxB;
-Y_Aero_N = Qstab * CyB;
+Y_Aero_N = CyB;
 Z_Aero_N = Qstab * CzB;
 
 Fcn = (CG_mac-0.25)*c;
