@@ -1,29 +1,37 @@
-function [CxB, CyB, CzB, ClB, CmB, CnB, deltaXcg, Mcg] = ConversionStab2Aero(params)
+function [CxB, CyB, CzB, ClB, CmB, CnB, deltaXcg] = ConversionStab2Aero(params)
 %Inputs
-CL0 = params.CL0;
-CD0 = params.CD0;
-C_stabAxis = params.C_stabAxis;
-CM = params.CM;
-CN = params.CN;
-M25 = params.M25;
-params.Alpha_angle_radps
+CL_stabAxis = params.CL_stabAxis;
+CD_stabAxis = params.CD_stabAxis;
+CY_stabAxis = params.CY_stabAxis;
+CN_stabAxis = params.CN_stabAxis;
+CM_stabAxis = params.CN_stabAxis;
+Alpha_angle_radps = params.Alpha_angle_radps;
 X = params.PositionInertial_m(1,1);
 Y = params.PositionInertial_m(2,1);
 Z = params.PositionInertial_m(3,1);
-CG = params.CG;
+CG_Mac = params.CG_Mac;
+Zcg_m = params.Zcg_m;
+Ycg_m = params.Ycg_m;
+c = params.c;
+b = params.b;
+dynP_Pa = params.dynP_Pa;
 
 %Formula
-CxB = CL0*sin(Alpha_angle_radps) - CD0*cos(Alpha_angle_radps);
-CzB = -CL0*cos(Alpha_angle_radps) - CD0*sin(Alpha_angle_radps);
-CyB = C_stabAxis(3,1);
+CxB = CL_stabAxis*sin(Alpha_angle_radps) - CD_stabAxis*cos(Alpha_angle_radps);
+CzB = -CL_stabAxis*cos(Alpha_angle_radps) - CD_stabAxis*sin(Alpha_angle_radps);
+CyB = CY_stabAxis;
 
-CmB = CM;
-ClB = CL*cos(Alpha_angle_radps) - CN*sin(Alpha_angle_radps);
-CnB = CL*sin(Alpha_angle_radps) + CN*cos(Alpha_angle_radps);
+CmB = CM_stabAxis;
+ClB = CL_stabAxis*cos(Alpha_angle_radps) - CN_stabAxis*sin(Alpha_angle_radps);
+CnB = CL_stabAxis*sin(Alpha_angle_radps) + CN_stabAxis*cos(Alpha_angle_radps);
 
-deltaXcg = CG-0,25;
+c = dynP_Pa*CmB;
+b = dynP_Pa*CnB;
+
+deltaXcg = ((CG_Mac-0.25)*c);
 
 %Mcg = M25 + deltaXcg*(-Z)-Zcg*(-X);
-Mcg = M25 + X*Zcg - Z*deltaXcg;
+%M25 = ((CzB*dynP_Pa)*deltaXcg)+(Zcg_m*CxB)+CG_Mac;
+%N25 = ((CyB*dynP_Pa)*deltaXcg)+(Ycg_m*CxB)+CG_Mac;
 
 end

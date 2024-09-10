@@ -1,4 +1,4 @@
-function C_stabAxis = Aerodynamics_Coefficient(params)
+function [CL_stabAxis, CD_stabAxis, CY_stabAxis, CI_stabAxis, CM_stabAxis, CN_stabAxis] = Aerodynamics_Coefficient(params)
 
 %Aerodynamic_Library_Coefficients
 %Input
@@ -71,7 +71,5 @@ CI_stabAxis = (CI_beta*Beta_radps)+(CI_rud*Rudder_radps)+(CI_Aileron*Aileron_rad
 CM_stabAxis = Cm0+(Cm_alpha*Alpha_radps)+(Cm_elev*Elevator_rapds)+(Cm_AlphaDot*AlphaVelocities_radps)/(2*TAS_mps)+(q_radps*Cm_q*c)/(2*TAS_mps);
 
 CN_stabAxis = (CN_beta*Beta_radps)+(CN_rud*Rudder_radps)+(CN_Aileron*Aileron_radps)+(CN_r*r_radps*b)/(2*TAS_mps)+(p_radps*CN_p*b)/(2*TAS_mps);
-
-C_stabAxis = [CL_stabAxis; CD_stabAxis; CY_stabAxis; CI_stabAxis; CM_stabAxis; CN_stabAxis];
 
 end

@@ -44,8 +44,8 @@ params.BodyVelocities = [0;0;0];
 params.InertialWind_mps = [0;0;0];
 params.TAS_mps = 0;
 
-params.N25 = 0;
-params.L25 = 0;
+%params.N25 = 0;
+%params.L25 = 0;
 params.deltaXcg = 0;
 
 
@@ -53,6 +53,14 @@ params.deltaXcg = 0;
 params.Elevator_deg = 0;
 params.Aileron_deg = 0;
 params.Rudder_deg = 0;
+
+params.CxB = 0;
+params.CyB = 0;
+params.CzB = 0;
+params.ClB = 0;
+params.CmB = 0;
+params.CnB = 0;
+params.Mcg = 0;
 
 
 [Inertia, y_cg, z_cg, nv, nrho, alfaf_deg, xf_m, zf_m, Tmax, S, c, b, CL0, CL_alpha, CL_elev, CL_AlphaDot, CL_q, CD0, CD_alpha, CD_elev, CY_beta, CY_rud, CY_ail, CY_r, CY_p, Cl_beta, Cl_rud, Cl_ail, Cl_r, Cl_p, Cm0, Cm_alpha, Cm_elev, Cm_AlphaDot, Cm_q, Cn_beta, Cn_rud, Cn_ail, Cn_r, Cn_p] = initACFT_low(params);
@@ -70,7 +78,7 @@ params.Ycg_m = y_cg;
 params.Zcg_m = z_cg;
 params.xf_m = xf_m;
 params.zf_m = zf_m;
-params.S = S;
+params.WingArea_m2 = S;
 params.b = b;
 params.c = c;
 params.CL0 = CL0;
@@ -127,16 +135,29 @@ params.pqr_radps = pqr_radps;
 
 [EngineForcesAndMoments, Thrust_N, TAS_Vref] = Propulsion(params);
 
-C_stabAxis = Aerodynamics_Coefficient(params)
+[CL_stabAxis, CD_stabAxis, CY_stabAxis, CI_stabAxis, CM_stabAxis, CN_stabAxis] = Aerodynamics_Coefficient(params);
+params.CL_stabAxis = CL_stabAxis;
+params.CD_stabAxis = CD_stabAxis;
+params.CY_stabAxis = CY_stabAxis;
+params.CI_stabAxis = CI_stabAxis;
+params.CM_stabAxis = CM_stabAxis;
+params.CN_stabAxis = CN_stabAxis;
 
 
-AeroForcesMoments = AeroforcesandMoments(params);
-params.X_Aero_N = AeroForcesMoments(1,1);
-params.Y_Aero_N = AeroForcesMoments(2,1);
-params.Z_Aero_N = AeroForcesMoments(3,1);
+[X_Aero_N, Y_Aero_N, Z_Aero_N, M_Aero_N, N_Aero_N, L_Aero_N, dynP_Pa] = AeroforcesandMoments(params);
+params.X_Aero_N = X_Aero_N;
+params.Y_Aero_N = Y_Aero_N;
+params.Z_Aero_N = Z_Aero_N;
+params.dynP_Pa = dynP_Pa;
 
-[CxB, CyB, CzB, ClB, CmB, CnB, deltaXcg, Mcg] = ConversionStab2Aero(params);
-
+[CxB, CyB, CzB, ClB, CmB, CnB, deltaXcg] = ConversionStab2Aero(params);
+params.CxB = CxB;
+params.CyB = CyB;
+params.CzB = CzB;
+params.ClB = ClB;
+params.CmB = CmB;
+params.CnB = CnB;
+params.deltaXcg = deltaXcg;
 
 %disp(pV);
 
