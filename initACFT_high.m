@@ -1,4 +1,3 @@
-
 % Mass properties
 Ixx = 100000;                                                               % kg.m2
 Iyy = 230000;                                                               % kg.m2
@@ -27,36 +26,36 @@ b = 21;                                                                     % Wi
 % Aerodynamic Data
 
 % Lift Coefficient Derivatives
-CL0 = 0.19;
-CL_alpha = 6.1879;
-CL_elev = 0.4727;
-CL_AlphaDot = 1.93;
-CL_q = 4.66;
+CL0 = 0.209;
+CL_alpha = 8.7491;
+CL_elev = 0.5380;
+CL_AlphaDot = 1.27;
+CL_q = 4.14;
 % Drag Coefficient Derivatives
-CD0 = 0.0230;
-CD_alpha = 0.1318;
+CD0 = 0.0281;
+CD_alpha = 0.5157;
 CD_elev = 0.0178;
 % Side force Coefficient Derivatives
-CY_beta = -1.1803;
-CY_rud = 0.4016;
+CY_beta = -1.2777;
+CY_rud = 0.4343;
 CY_ail = 0;
 CY_r = 0.910;
-CY_p = 0.3;
+CY_p = 0.300;
 % Rolling moment Derivatives
 Cl_beta = -0.1352;
-Cl_rud = 0.0289;
-Cl_ail = -0.0516;
+Cl_rud = 0.0333;
+Cl_ail = -0.0453;
 Cl_r = 0.100;
 Cl_p = -0.45;
 % Pitching moment Derivatives
-Cm0 = 0.0133;
-Cm_alpha = -2.0168;
-Cm_elev = -1.6788;
-Cm_AlphaDot = -6.76;
-Cm_q = -36.3;
+Cm0 = 0.000;
+Cm_alpha = -2.4351;
+Cm_elev = -1.9079;
+Cm_AlphaDot = -4.53;
+Cm_q = -37.6;
 % Yawing moment Derivatives
-Cn_beta = 0.1209;
-Cn_rud = -0.1020;
-Cn_ail = -6.3025e-4;
-Cn_r = -0.30;
+Cn_beta = 0.1478;
+Cn_rud = -0.1100;
+Cn_ail = -8.5944e-04;
+Cn_r = -0.15;
 Cn_p = -0.114;
